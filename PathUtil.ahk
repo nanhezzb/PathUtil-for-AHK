@@ -1,6 +1,11 @@
 #Requires AutoHotkey v2.0
 
 ; ============================================================
+; PathUtil
+; Version: 1.1.2
+; Build Time: 2026-06-10 11:15
+; ============================================================
+;
 ; 功能:
 ;   AutoHotkey v2 的 Windows 路径同一性比较与规范化工具库。
 ;
@@ -25,7 +30,7 @@
 ;   #Include <PathUtil>
 ;
 ;   示例:
-;   result := PathUtil.Equal("C:\PROGRA~1", "%ProgramFiles%")
+;   result := PathUtil.IsEqual("C:\PROGRA~1", "%ProgramFiles%")
 ; ============================================================
 
 class PathUtil {
@@ -122,7 +127,7 @@ class PathUtil {
     }
 
     ; ------------------------------------------------------------
-    ; Equal
+    ; IsEqual
     ; 功能:
     ;   在字符串层面比较两个路径是否同一。
     ; 说明:
@@ -132,7 +137,7 @@ class PathUtil {
     ;   无法识别硬链接。
     ;   如果需要识别硬链接，请使用 IsSameFile()。
     ; ------------------------------------------------------------
-    static Equal(pathA, pathB) {
+    static IsEqual(pathA, pathB) {
         normalizedA := this.Normalize(pathA)
         normalizedB := this.Normalize(pathB)
         return StrCompare(normalizedA, normalizedB, false) = 0
@@ -163,18 +168,18 @@ class PathUtil {
     }
 
     ; ------------------------------------------------------------
-    ; EqualEx
+    ; IsEqualEx
     ; 功能:
     ;   综合比较两个路径是否同一。
     ; 策略:
     ;   1. 优先尝试文件系统层比较。
     ;   2. 如果文件系统层无法判断，则退回字符串层比较。
     ; ------------------------------------------------------------
-    static EqualEx(pathA, pathB) {
+    static IsEqualEx(pathA, pathB) {
         if (this.IsSameFile(pathA, pathB))
             return true
 
-        return this.Equal(pathA, pathB)
+        return this.IsEqual(pathA, pathB)
     }
 
     ; ------------------------------------------------------------
